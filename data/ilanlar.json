@@ -1,0 +1,94 @@
+{
+  "ilanlar": [
+    {
+      "id": "1",
+      "baslik": "3+1 Sıfır Daire, Güney Cephe",
+      "konum": "Orta Mahalle, Serik",
+      "tip": "Daire",
+      "fiyat": "4.250.000 ₺",
+      "m2": 145,
+      "oda": "3+1",
+      "kat": "3 / 4",
+      "bina_yasi": "Sıfır",
+      "aciklama": "Serik Orta Mahalle'de, merkeze yürüme mesafesinde, 2024 yılında teslim edilmiş sıfır daire. Güney cepheli, gün boyu aydınlık. Açık mutfak konseptli salon, geniş balkon, her odada klima altyapısı mevcut. Bina 8 daireli, asansörlü, kapalı otoparkı bulunmaktadır. Tapu ve iskanı hazır, hemen teslim.",
+      "fotograflar": ["foto1.jpg", "foto2.jpg", "foto3.jpg"],
+      "one_cikan": true
+    },
+    {
+      "id": "2",
+      "baslik": "Müstakil Havuzlu Villa",
+      "konum": "Belek, Serik",
+      "tip": "Müstakil Ev / Villa",
+      "fiyat": "12.500.000 ₺",
+      "m2": 220,
+      "oda": "4+1",
+      "kat": "Villa",
+      "bina_yasi": "2 Yaşında",
+      "aciklama": "Belek merkezde, golf sahalarına yakın tam müstakil 4+1 lüks villa. Kendine ait havuzu ve geniş bahçe alanı bulunmaktadır.",
+      "fotograflar": ["foto1.jpg", "foto2.jpg"],
+      "one_cikan": true
+    },
+    {
+      "id": "3",
+      "baslik": "Tarımsal Arazi",
+      "konum": "Akçaalan, Serik",
+      "tip": "Tarla / Arazi",
+      "fiyat": "2.150.000 ₺",
+      "m2": 4500,
+      "oda": "-",
+      "kat": "-",
+      "bina_yasi": "-",
+      "aciklama": "Akçaalan mevkiinde, yola sıfır, sera yapımına uygun düz arazi. Su ve elektrik problemi yoktur.",
+      "fotograflar": ["foto1.jpg", "foto2.jpg"],
+      "one_cikan": true
+    },
+    {
+      "id": "4",
+      "baslik": "Yatırımlık İmarlı Arsa",
+      "konum": "Kökez, Serik",
+      "tip": "Arsa",
+      "fiyat": "3.800.000 ₺",
+      "m2": 520,
+      "oda": "-",
+      "kat": "-",
+      "bina_yasi": "-",
+      "aciklama": "Kökez Mahallesinde konut imarlı köşe başı arsa. Kat karşılığı verilmeye veya müstakil ev yapımına uygun.",
+      "fotograflar": ["foto1.jpg", "foto2.jpg"],
+      "one_cikan": false
+    },
+    {
+      "id": "5",
+      "baslik": "2+1 Ara Kat Daire",
+      "konum": "Cumhuriyet, Serik",
+      "tip": "Daire",
+      "fiyat": "2.900.000 ₺",
+      "m2": 110,
+      "oda": "2+1",
+      "kat": "2 / 5",
+      "bina_yasi": "5",
+      "aciklama": "Ana caddeye çok yakın, okul ve marketlere yürüme mesafesinde masrafsız 2+1 daire.",
+      "fotograflar": ["foto1.jpg", "foto2.jpg"],
+      "one_cikan": true
+    }
+  ],
+  "projeler": [
+    {
+      "id": "p1",
+      "isim": "Zühre Konakları",
+      "detay": "Orta Mahalle, 12 Daire, 2023",
+      "gorsel": "proje1.jpg"
+    },
+    {
+      "id": "p2",
+      "isim": "Golden Life Evleri",
+      "detay": "Belek, 4 Villa, 2022",
+      "gorsel": "proje2.jpg"
+    },
+    {
+      "id": "p3",
+      "isim": "Merkez Apartmanı",
+      "detay": "Cumhuriyet Mah., 8 Daire, 2021",
+      "gorsel": "proje3.jpg"
+    }
+  ]
+}

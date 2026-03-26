@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İlanlar — Zühre Yatırım</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* ── Filter Tabs ── */
+  .filter-nav { display: flex; justify-content: center; gap: 1rem; margin: 3rem 0; flex-wrap: wrap; }
+  .filter-btn { padding: 0.8rem 1.5rem; border: 1px solid var(--gold-border); background: transparent; color: var(--text-muted); font-family: var(--body-font); font-size: 0.9rem; border-radius: 30px; cursor: pointer; transition: all 0.3s; }
+  .filter-btn:hover { border-color: var(--gold); }
+  .filter-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+  
+  /* ── Properties Grid ── */
+  .properties-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 5rem; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">ZÜHRE YATIRIM<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#ekip">Hakkımızda</a></li>
+    <li><a href="ilanlar.html" style="color: var(--text-main);">İlanlar</a></li>
+    <li><a href="index.html#projeler">Projeler</a></li>
+    <li><a href="index.html#iletisim">İletişim</a></li>
+  </ul>
+</nav>
+
+<div class="container" style="padding-top: 4rem;">
+  <h1 class="section-title">Gayrimenkul Portföyümüz</h1>
+  <div class="filter-nav" id="filterNav">
+    <button class="filter-btn active" data-filter="all">Tümü</button>
+    <button class="filter-btn" data-filter="daire">Daire</button>
+    <button class="filter-btn" data-filter="müstakil">Müstakil</button>
+    <button class="filter-btn" data-filter="arsa">Arsa & Arazi</button>
+  </div>
+  
+  <div class="properties-grid" id="propertiesGrid">
+    <div style="text-align:center; grid-column: 1/-1; padding: 2rem; color: var(--text-muted);">İlanlar yükleniyor...</div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">ZÜHRE YATIRIM<span>.</span></div>
+  <p>&copy; 2024 Zühre Yatırım Gayrimenkul Danışmanlığı. Tüm hakları saklıdır.</p>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

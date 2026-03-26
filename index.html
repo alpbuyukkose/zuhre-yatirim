@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zühre Yatırım — Gayrimenkul Danışmanlığı</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Hero Section ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(220, 210, 195, 0.7) 0%, rgba(184, 151, 106, 0.25) 30%, transparent 80%),
+        repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(184, 151, 106, 0.08) 119px, rgba(184, 151, 106, 0.08) 120px);
+      opacity: 0;
+      animation: fadeLines 2.5s ease-out 0.8s forwards;
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: 22%;
+      width: 1px;
+      height: 140%;
+      background: linear-gradient(180deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+      opacity: 0;
+      transform: rotate(15deg);
+      animation: fadeIn 2s ease-out 1.4s forwards;
+      z-index: -1;
+    }
+
+    .line-2 {
+      position: absolute;
+      top: -10%;
+      right: 45%;
+      width: 1px;
+      height: 130%;
+      z-index: -1;
+      background: linear-gradient(180deg, transparent 0%, rgba(184, 151, 106, 0.3) 40%, rgba(184, 151, 106, 0.3) 60%, transparent 100%);
+      transform: rotate(15deg);
+      opacity: 0;
+      animation: fadeIn 2s ease-out 1.8s forwards;
+    }
+
+    .line-3 {
+      position: absolute;
+      top: -15%;
+      right: 65%;
+      width: 1px;
+      height: 120%;
+      z-index: -1;
+      background: linear-gradient(180deg, transparent 0%, rgba(184, 151, 106, 0.15) 35%, rgba(184, 151, 106, 0.15) 65%, transparent 100%);
+      transform: rotate(15deg);
+      opacity: 0;
+      animation: fadeIn 2s ease-out 2.1s forwards;
+    }
+
+    .orb {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(184, 151, 106, 0.08) 0%, transparent 70%);
+      top: 10%;
+      left: 25%;
+      filter: blur(80px);
+      animation: orbFloat 12s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .corner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-out 2.2s forwards;
+    }
+
+    .corner--tl {
+      top: 1.5rem;
+      left: 1.5rem;
+      border-top: 1px solid var(--gold-border);
+      border-left: 1px solid var(--gold-border);
+    }
+
+    .corner--br {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      border-bottom: 1px solid var(--gold-border);
+      border-right: 1px solid var(--gold-border);
+    }
+
+    /* Navigation animation overriding global style just for index */
+    nav {
+      opacity: 0;
+      animation: slideDown 1s ease-out 0.3s forwards;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 800px;
+    }
+
+    .hero-tagline {
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 1s ease-out 0.6s forwards;
+    }
+
+    .hero-heading {
+      font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUp 1.2s ease-out 0.9s forwards;
+    }
+
+    .hero-heading em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-weight: 400;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 460px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 1s ease-out 1.3s forwards;
+    }
+
+    .hero-bottom {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 4rem 2.5rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-out 2s forwards;
+    }
+
+    .scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 400;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .scroll-line {
+      width: 48px;
+      height: 1px;
+      background: var(--gold-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--gold);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+
+    .contact-hint a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 500;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: color 0.3s ease;
+    }
+
+    .contact-hint a:hover {
+      color: var(--text-main);
+    }
+
+    .contact-hint a svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    /* ── Section Structure ── */
+    section {
+      padding: 5rem 0;
+    }
+
+    /* ── Zebra Sections ── */
+    #ekip,
+    #ilanlar-preview {
+      background: var(--bg-card);
+      border-top: 1px solid var(--gold-border);
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .contact-section {
+      background: var(--bg-card);
+      border-top: 1px solid var(--gold-border);
+    }
+
+    /* ── Team Section ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .team-member {
+      text-align: center;
+    }
+
+    .team-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--gold-dim);
+      margin-bottom: 1.5rem;
+      background: var(--bg-hover);
+    }
+
+    .team-name {
+      font-family: var(--heading-font);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-role {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+
+    /* ── Value Prop Section ── */
+    .value-prop {
+      position: relative;
+      padding: 0 !important;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0;
+    }
+
+    .value-col {
+      padding: 6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .value-divider {
+      background: var(--gold-border);
+      width: 100%;
+      height: 100%;
+    }
+
+    .value-title {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .value-text {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 400px;
+    }
+
+    /* ── Featured Properties ── */
+    .featured-wrapper {
+      width: 100%;
+      overflow: hidden;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .featured-track {
+      display: flex;
+      gap: 2rem;
+      padding: 2rem 4rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .featured-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ── Completed Projects ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--bg-hover);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem 1.5rem 1.5rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      color: #FFF;
+    }
+
+    .project-title {
+      font-family: var(--heading-font);
+      font-size: 1.3rem;
+      margin-bottom: 0.2rem;
+      color: #FFF;
+    }
+
+    .project-detail {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ── Contact Section ── */
+    .contact-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .contact-image-half img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      aspect-ratio: 4/3;
+      display: block;
+    }
+
+    .contact-info-half {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .contact-info-half .section-title {
+      text-align: center !important;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-number {
+      font-family: var(--heading-font);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      color: var(--text-main);
+      margin: 2rem 0;
+      display: block;
+      font-weight: 700;
+      transition: color 0.3s;
+    }
+    .contact-number:hover {
+      color: var(--gold);
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scrollPulse {
+      0% {
+        left: -100%;
+      }
+
+      50% {
+        left: 100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    @keyframes fadeLines {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(-30px, 20px) scale(1.05);
+      }
+
+      66% {
+        transform: translate(20px, -15px) scale(0.97);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .value-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .value-divider {
+        width: 100%;
+        height: 1px;
+      }
+
+      .value-col {
+        padding: 4rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        padding: 0 1.8rem;
+      }
+
+      .hero-bottom {
+        padding: 0 1.8rem 2rem;
+      }
+
+      .corner--tl {
+        top: 0.8rem;
+        left: 0.8rem;
+      }
+
+      .corner--br {
+        bottom: 0.8rem;
+        right: 0.8rem;
+      }
+
+      section {
+        padding: 4rem 0;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .featured-track {
+        padding: 1rem 1.8rem;
+      }
+
+      .value-col {
+        padding: 3rem 1.5rem;
+      }
+
+      .contact-split {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .contact-info-half {
+        align-items: center;
+        text-align: center;
+      }
+
+      .contact-info-half .section-title {
+        text-align: center !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Adım 1: Hero -->
+  <section class="hero" style="padding: 0;">
+    <div class="orb"></div>
+    <div class="line-2"></div>
+    <div class="line-3"></div>
+    <div class="corner corner--tl"></div>
+    <div class="corner corner--br"></div>
+
+    <nav>
+      <div class="logo">ZÜHRE YATIRIM<span>.</span></div>
+      <ul class="nav-links">
+        <li><a href="#ekip">Hakkımızda</a></li>
+        <li><a href="ilanlar.html">İlanlar</a></li>
+        <li><a href="#projeler">Projeler</a></li>
+        <li><a href="#iletisim">İletişim</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-content">
+      <p class="hero-tagline">Serik · Belek · Antalya</p>
+      <h1 class="hero-heading">Toprağı tanır,<br><em>üstünü</em> inşa ederiz.</h1>
+      <p class="hero-sub">Kat karşılığı inşaat ve gayrimenkul danışmanlığı.<br>Üç kişilik ekip, yirmi yıllık tecrübe.
+      </p>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="scroll-hint">
+        <span class="scroll-line"></span>
+        Aşağı kaydır
+      </div>
+      <div class="contact-hint">
+        <a href="https://wa.me/905551234567" target="_blank">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+          </svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adım 2: Ekip -->
+  <section id="ekip">
+    <div class="container">
+      <h2 class="section-title">Butik Hizmet Anlayışı.<br><span class="text-gold">Şeffaf süreç yönetimi.</span></h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <img src="images/ekip/zuhre-placeholder.jpg" alt="Zühre Kuş" class="team-photo">
+          <h3 class="team-name">Zühre Kuş</h3>
+        </div>
+        <div class="team-member">
+          <img src="images/ekip/sefa-placeholder.jpg" alt="Sefa Çoşkun" class="team-photo">
+          <h3 class="team-name">Sefa Çoşkun</h3>
+        </div>
+        <div class="team-member">
+          <img src="images/ekip/mehmet-placeholder.jpg" alt="Mehmet Kuş" class="team-photo">
+          <h3 class="team-name">Mehmet Kuş</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adım 3: İki Kollu Değer Önerisi -->
+  <section class="value-prop">
+    <div class="value-grid">
+      <div class="value-col">
+        <h2 class="value-title">Arsanız var mı?</h2>
+        <p class="value-text">Arsanızı kat karşılığı modelle değerlendiriyoruz. Riski biz taşıyoruz, süreci birlikte
+          yönetiyoruz. Sonunda arsanız, dairelere dönüşür.</p>
+        <a href="#iletisim" class="btn-outline">Bizi Arayın</a>
+      </div>
+      <div class="value-divider"></div>
+      <div class="value-col" style="align-items: flex-end; text-align: right;">
+        <h2 class="value-title">Ev mi arıyorsunuz?</h2>
+        <p class="value-text">Serik ve çevresinde satılık daire, müstakil ve arsa ilanlarımızı inceleyin. Neye
+          ihtiyacınız olduğunu biliyoruz çünkü çoğunu biz inşa ettik.</p>
+        <a href="ilanlar.html" class="btn-primary">İlanları İnceleyin</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adım 4: Öne Çıkan İlanlar -->
+  <section id="ilanlar-preview">
+    <div class="container">
+      <h2 class="section-title">Güncel İlanlar</h2>
+    </div>
+    <div class="featured-wrapper">
+      <div class="featured-track" id="featuredGrid">
+        <div style="padding: 2rem; color: var(--text-muted);">İlanlar yükleniyor...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adım 5: Tamamlanmış Projeler -->
+  <section id="projeler">
+    <div class="container">
+      <h2 class="section-title">Teslim ettiklerimiz.</h2>
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Loaded via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Adım 6: İletişim -->
+  <section id="iletisim" class="contact-section">
+    <div class="container">
+      <div class="contact-split">
+        <div class="contact-image-half">
+          <img src="images/ofis-placeholder.jpg" alt="Zühre Yatırım Ofisi">
+        </div>
+        <div class="contact-info-half">
+          <h2 class="section-title">Konuşalım.</h2>
+          <p class="text-muted">Kahve içmeye ofisimize bekleriz veya arayın hemen görüşelim.</p>
+
+          <a href="tel:+905551234567" class="contact-number">0 555 123 45 67</a>
+
+          <a href="https://wa.me/905551234567" target="_blank" class="btn-primary"
+            style="font-size: 1rem; padding: 1.2rem 3rem; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;">
+            <svg viewBox="0 0 24 24"
+              style="width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.5;">
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+            </svg>
+            WhatsApp'tan Yazın
+          </a>
+
+          <p class="text-muted" style="margin-top: 3rem; font-size: 0.9rem; margin-bottom: 0;">
+            Orta Mahalle, Serik / Antalya
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">ZÜHRE YATIRIM<span>.</span></div>
+    <p>&copy; 2024 Zühre Yatırım Gayrimenkul Danışmanlığı. Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

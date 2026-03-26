@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İlan Detay — Zühre Yatırım</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Base Layout */
+  .back-link { display: inline-flex; align-items: center; gap: 0.5rem; padding: 2rem; font-weight: 500; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); transition: color 0.3s; }
+  .back-link:hover { color: var(--text-main); }
+  .back-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  .listing-layout { display: flex; padding: 0 3rem 4rem; gap: 2rem; }
+  .listing-gallery { flex: 0 0 78%; max-width: 78%; }
+  .listing-sidebar { flex: 0 0 20%; max-width: 20%; position: sticky; top: 2rem; align-self: flex-start; }
+
+  /* Gallery */
+  .gallery-main { width: 100%; aspect-ratio: 16/9; border-radius: 4px; overflow: hidden; background: var(--bg-hover); margin-bottom: 0.75rem; position: relative; }
+  .gallery-main img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease; }
+  .gallery-counter { position: absolute; bottom: 1rem; right: 1rem; background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); padding: 0.4rem 0.8rem; border-radius: 3px; font-size: 0.8rem; font-weight: 500; color: var(--text-main); }
+  .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gold-border); background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; color: var(--text-main); }
+  .gallery-arrow:hover { border-color: var(--gold); background: #FFF; }
+  .gallery-arrow svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .gallery-arrow--prev { left: 1rem; }
+  .gallery-arrow--next { right: 1rem; }
+
+  .gallery-thumbs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+  .gallery-thumbs::-webkit-scrollbar { height: 4px; }
+  .gallery-thumbs::-webkit-scrollbar-track { background: var(--bg-card); }
+  .gallery-thumbs::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 4px; }
+  .thumb { flex: 0 0 100px; height: 65px; border-radius: 3px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.5; transition: all 0.3s; background: var(--bg-hover); }
+  .thumb.active { border-color: var(--gold); opacity: 1; }
+  .thumb:hover { opacity: 0.85; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Description */
+  .listing-description { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--gold-border); }
+  .listing-description h2 { font-size: 1.6rem; margin-bottom: 1.2rem; }
+  .listing-description p { max-width: 780px; color: var(--text-muted); white-space: pre-wrap; line-height: 1.8; }
+
+  /* Sidebar */
+  .sidebar-card { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 4px; padding: 2rem 1.5rem; }
+  .sidebar-price { font-family: var(--heading-font); font-weight: 700; font-size: 1.8rem; color: var(--gold); margin-bottom: 0.3rem; }
+  .sidebar-price-note { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 2rem; }
+  .sidebar-title { font-family: var(--heading-font); font-weight: 700; font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.4rem; line-height: 1.4; }
+  .sidebar-loc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.8rem; display: flex; align-items: center; gap: 0.4rem; }
+  .sidebar-loc svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+  .sidebar-specs { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--gold-border); margin-bottom: 2rem; }
+  .spec-item { padding: 1rem 0; border-bottom: 1px solid var(--gold-dim); }
+  .spec-item:nth-child(odd) { padding-right: 0.8rem; }
+  .spec-item:nth-child(even) { padding-left: 0.8rem; border-left: 1px solid var(--gold-dim); }
+  .spec-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.3rem; }
+  .spec-value { font-weight: 500; font-size: 0.95rem; color: var(--text-main); }
+
+  .sidebar-divider { height: 1px; background: var(--gold-border); margin: 1.2rem 0; }
+  .sidebar-phone { display: flex; justify-content: center; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.9rem; color: var(--text-muted); transition: color 0.3s; }
+  .sidebar-phone:hover { color: var(--text-main); }
+  .sidebar-phone svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  @media (max-width: 1024px) {
+    .listing-layout { flex-direction: column; padding: 0 1.5rem 3rem; display: flex; gap: 1.5rem; }
+    .listing-gallery { display: contents; }
+    .gallery-main { order: 1; margin-bottom: 0; }
+    .gallery-thumbs { order: 2; }
+    .listing-sidebar { order: 3; position: static; width: 100%; max-width: 100%; flex: auto; }
+    .listing-description { order: 4; padding-top: 2rem; margin-top: 1rem; }
+  }
+</style>
+</head>
+<body>
+<nav style="border-bottom: 1px solid var(--gold-border); padding: 1.5rem 3rem;">
+  <a href="index.html" class="logo">ZÜHRE YATIRIM<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#ekip">Hakkımızda</a></li>
+    <li><a href="ilanlar.html">İlanlar</a></li>
+    <li><a href="index.html#projeler">Projeler</a></li>
+    <li><a href="index.html#iletisim">İletişim</a></li>
+  </ul>
+</nav>
+
+<a href="ilanlar.html" class="back-link">
+  <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Tüm İlanlar
+</a>
+
+<div class="listing-layout" id="propertyDetailLayout">
+  <div style="flex: 1; padding: 4rem; text-align: center; color: var(--text-muted);">İlan Yükleniyor...</div>
+</div>
+
+<footer>
+  <div class="logo">ZÜHRE YATIRIM<span>.</span></div>
+  <p>&copy; 2024 Zühre Yatırım Gayrimenkul Danışmanlığı. Tüm hakları saklıdır.</p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
