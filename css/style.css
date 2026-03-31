@@ -10,27 +10,27 @@
 }
 
 :root {
-  /* LIGHT THEME VARIABLES (Autumn Luxe Palette) */
-  --bg: #ECE7DF;
-  /* Daha belirgin, hafif toprak/turuncu alt tonlu krem */
-  --bg-card: #f4f4f4;
-  /* White neutral base */
-  --bg-hover: #D5D4DE;
-  /* Slightly darker gray for hovers */
+  /* LIGHT THEME VARIABLES (Corporate Slate & Navy Palette) */
+  --bg: #F0F2F5;
+  /* Koyu beyaz/hafif gri, daha normal bir website hissiyatı veren arkaplan */
+  --bg-card: #FFFFFF;
+  /* Tüm kartların (container) bembeyaz görünmesi için */
+  --bg-hover: #E2E8F0;
+  /* Gri, soft etkileşim efekti */
 
-  --text-main: #322D27;
-  /* Deep black/brown text */
-  --text-muted: #7F7265;
-  /* Taupe muted text */
-  --text-dim: #AAAAAE;
-  /* Medium gray text */
+  --text-main: #1E293B;
+  /* Ciddi koyu slate grisi/siyah */
+  --text-muted: #64748B;
+  /* Modern gri okuma fontu */
+  --text-dim: #94A3B8;
+  /* İkincil çok silik/açık gri text */
 
-  --gold: #BF8440;
-  /* Deep gold accent */
-  --gold-dim: rgba(191, 132, 64, 0.15);
-  /* Soft gold bg */
-  --gold-border: rgba(191, 132, 64, 0.4);
-  /* Divider lines */
+  --gold: #1D4E89;
+  /* Ana Vurgu Rengi: Lüks ve canlı Safir/Royal Mavi (Sapphire Navy) */
+  --gold-dim: rgba(29, 78, 137, 0.08);
+  /* Arkaplan, hafif mavimsi */
+  --gold-border: rgba(29, 78, 137, 0.2);
+  /* Kartları saran ciddi koyu ayraç border rengi */
 
   --heading-font: 'Playfair Display', serif;
   --body-font: 'Jost', sans-serif;
@@ -298,6 +298,7 @@ nav {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .prop-price {
@@ -313,9 +314,13 @@ nav {
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: var(--text-main);
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .prop-loc {

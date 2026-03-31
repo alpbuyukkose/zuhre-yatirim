@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f0f2f5">
+    <title>Yönetim Paneli | Zühre Yatırım</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1a1a1a;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: #eee;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #1D4E89;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-submit {
+            background-color: #1D4E89;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #163B6A;
+        }
+
+        .btn-submit:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #mesaj {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .basarili {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .hata {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .record-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        h2.list-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- GİRİŞ EKRANI -->
+    <div id="loginContainer" style="max-width: 400px; margin: 10vh auto; background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; gap: 1rem;">
+        <h2 style="margin: 0 0 1rem; text-align: center; color: #1a1a1a;">Yönetici Girişi</h2>
+        <div class="form-group">
+            <label for="adminEmail">E-posta</label>
+            <input type="email" id="adminEmail" required placeholder="admin@zuhreyatirim.com">
+        </div>
+        <div class="form-group">
+            <label for="adminPassword">Şifre</label>
+            <input type="password" id="adminPassword" required placeholder="••••••••">
+        </div>
+        <button id="btnLogin" class="btn-submit" style="margin-top: 1rem; width: 100%;">Giriş Yap</button>
+        <div id="loginMessage" style="color: #dc3545; font-size: 0.9rem; text-align: center; display: none; margin-top: 0.5rem; font-weight: bold;">Hatalı giriş!</div>
+    </div>
+
+    <!-- YÖNETİM PANELİ ANA ALAN -->
+    <div class="admin-container" id="adminMainContainer" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h1 style="margin: 0;">İçerik Yönetimi</h1>
+            <button id="btnLogout" style="background: transparent; color: #dc3545; border: 1px solid #dc3545; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.background='#dc3545'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#dc3545';">Çıkış Yap</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-target="ilanEkle">İlan Ekle</button>
+            <button class="tab-btn" data-target="projeEkle">Proje Ekle</button>
+            <button class="tab-btn" data-target="mevcutKayitlar" id="btnMevcutKayitlar">Mevcut Kayıtlar / Sil</button>
+        </div>
+
+        <!-- İLAN FORMU -->
+        <div id="ilanEkle" class="tab-content active">
+            <form id="ilanFormu">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="tip">Emlak Tipi (Lütfen önce bunu seçiniz)</label>
+                        <select id="tip" required>
+                            <option value="Daire">Daire</option>
+                            <option value="Müstakil Ev / Villa">Müstakil Ev / Villa</option>
+                            <option value="Arsa">Arsa</option>
+                            <option value="Tarla / Arazi">Tarla / Arazi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="baslik">İlan Başlığı</label>
+                        <input type="text" id="baslik" required placeholder="Örn: 3+1 Sıfır Daire, Güney Cephe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konum">Kısa Konum (Tüm İlanlar Kartlarında Görünür)</label>
+                        <input type="text" id="konum" required placeholder="Örn: Orta Mahalle, Serik">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="fiyat">Fiyat</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="fiyat" required placeholder="Örn: 4.250.000" style="flex: 1;">
+                            <select id="para_birimi" style="width: 100px;">
+                                <option value="₺">TL (₺)</option>
+                                <option value="$">Dolar ($)</option>
+                                <option value="€">Euro (€)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="m2_ozellikleri" class="form-grid full-width"
+                        style="margin: 0; padding: 0; gap: 1.5rem; border-top: 1px dashed #ccc; padding-top: 1.5rem; margin-top: 0.5rem; grid-template-columns: 1fr 1fr 1fr;">
+                        <div class="form-group">
+                            <label for="brut_m2">Brüt Metrekare</label>
+                            <input type="number" id="brut_m2" required placeholder="Örn: 160">
+                        </div>
+                        <div class="form-group">
+                            <label for="net_m2">Net Metrekare</label>
+                            <input type="number" id="net_m2" required placeholder="Örn: 145">
+                        </div>
+                        <div class="form-group">
+                            <label>Birim m² Fiyatı</label>
+                            <input type="text" id="m2_fiyati" disabled placeholder="Otomatik hesaplanır" style="background-color: #f5f5f5; cursor: not-allowed; font-weight: bold; color: #555;">
+                        </div>
+                    </div>
+
+                    <div id="bina_ozellikleri" class="form-grid full-width" style="margin: 0; padding: 0; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label for="oda">Oda Sayısı</label>
+                            <input type="text" id="oda" placeholder="Örn: 3+1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="banyo">Banyo Sayısı</label>
+                            <input type="number" id="banyo" placeholder="Örn: 2" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kat">Bulunduğu Kat</label>
+                            <input type="text" id="kat" placeholder="Örn: 3 / 4" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bina_yasi">Bina Yaşı</label>
+                            <input type="text" id="bina_yasi" placeholder="Örn: Sıfır veya 5" required>
+                        </div>
+                    </div>
+
+                    <div id="arsa_ozellikleri" class="form-grid full-width" style="margin: 0; padding: 0; gap: 1.5rem; display: none;">
+                        <div class="form-group">
+                            <label for="ada_no">Ada No</label>
+                            <input type="number" id="ada_no" placeholder="Örn: 123">
+                        </div>
+                        <div class="form-group">
+                            <label for="parsel_no">Parsel No</label>
+                            <input type="number" id="parsel_no" placeholder="Örn: 4">
+                        </div>
+                        <div class="form-group">
+                            <label for="imar_durumu">İmar Durumu</label>
+                            <select id="imar_durumu">
+                                <option value="">Seçiniz</option>
+                                <option value="Konut">Konut</option>
+                                <option value="Ticari">Ticari</option>
+                                <option value="Ticari+Konut">Ticari+Konut</option>
+                                <option value="Turizm">Turizm</option>
+                                <option value="Sanayi">Sanayi</option>
+                                <option value="Tarla / Tarım">Tarla / Tarım</option>
+                                <option value="Bağ / Bahçe">Bağ / Bahçe</option>
+                                <option value="Zeytinlik">Zeytinlik</option>
+                                <option value="SİT Alanı">SİT Alanı</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tapu_durumu">Tapu Durumu</label>
+                            <select id="tapu_durumu">
+                                <option value="">Seçiniz</option>
+                                <option value="Müstakil Parsel">Müstakil Parsel</option>
+                                <option value="Hisseli Tapu">Hisseli Tapu</option>
+                                <option value="Tahsis">Tahsis</option>
+                                <option value="Zilyetlik">Zilyetlik</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width checkbox-group">
+                            <input type="checkbox" id="yola_cephe">
+                            <label for="yola_cephe">Yola Cephe</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border: 1px dashed #ccc; padding: 1.5rem; border-radius: 4px; background: #fafafa;">
+                        <h3
+                            style="grid-column: 1/-1; margin-top: 0; font-size: 1rem; margin-bottom: 0.5rem; color: #555;">
+                            Ekstra Özellikler</h3>
+                        <div class="checkbox-group bina-ekstra" style="display: flex;">
+                            <input type="checkbox" id="dogalgaz">
+                            <label for="dogalgaz">Doğalgaz</label>
+                        </div>
+                        <div class="checkbox-group bina-ekstra" style="display: flex;">
+                            <input type="checkbox" id="otopark">
+                            <label for="otopark">Otopark</label>
+                        </div>
+                        <div class="checkbox-group bina-ekstra" style="display: flex;">
+                            <input type="checkbox" id="site_ici">
+                            <label for="site_ici">Site İçerisinde</label>
+                        </div>
+                        <div class="checkbox-group bina-ekstra" style="display: flex;">
+                            <input type="checkbox" id="asansor">
+                            <label for="asansor">Asansör</label>
+                        </div>
+                        <div class="checkbox-group arsa-ekstra" style="display: none;">
+                            <input type="checkbox" id="elektrik">
+                            <label for="elektrik">Elektrik</label>
+                        </div>
+                        <div class="checkbox-group arsa-ekstra" style="display: none;">
+                            <input type="checkbox" id="su">
+                            <label for="su">Su</label>
+                        </div>
+                        <div class="checkbox-group" style="display: flex;">
+                            <input type="checkbox" id="krediye_uygun">
+                            <label for="krediye_uygun">Krediye Uygun</label>
+                        </div>
+                        <div class="checkbox-group" style="display: flex;">
+                            <input type="checkbox" id="yatirima_uygun">
+                            <label for="yatirima_uygun">Yatırıma Uygun</label>
+                        </div>
+                    </div>
+
+                    <div id="adres_ozellikleri" class="form-grid full-width"
+                        style="margin: 0; padding: 0; gap: 1.5rem; border-top: 1px dashed #ccc; padding-top: 1.5rem; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                        <h3 style="grid-column: 1/-1; margin: 0; font-size: 1rem; color: #555;">Harita & Adres Detayları
+                            (İlan Detay Sayfasında Görünür)</h3>
+                        <div class="form-group full-width">
+                            <label for="adres_acik">Tam Adres</label>
+                            <input type="text" id="adres_acik" placeholder="Örn: Andifli, Barış Sokak, Türkiye">
+                        </div>
+                        <div class="form-group">
+                            <label for="ilce">İlçe / Şehir</label>
+                            <input type="text" id="ilce" placeholder="Örn: Kaş">
+                        </div>
+                        <div class="form-group">
+                            <label for="il">İl</label>
+                            <input type="text" id="il" placeholder="Örn: Antalya">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="aciklama">Açıklama</label>
+                        <textarea id="aciklama" required placeholder="İlan detaylarını buraya yazın..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width checkbox-group">
+                        <input type="checkbox" id="one_cikan">
+                        <label for="one_cikan">Ana sayfada "Öne Çıkanlar" bölümünde gösterilsin mi?</label>
+                    </div>
+
+                    <div class="form-group full-width"
+                        style="border: 2px dashed #ccc; padding: 1.5rem; text-align: center;">
+                        <label for="fotograflar" style="display: block; margin-bottom: 1rem; font-size: 1.1rem;">İlan
+                            Fotoğraflarını Seçin (Birden fazla seçebilirsiniz)</label>
+                        <input type="file" id="fotograflar" multiple accept="image/*">
+
+                        <div id="imagePreviewContainer"
+                            style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; min-height: 120px; border: 1px solid #eee; padding: 1rem; border-radius: 4px; align-items: center; justify-content: center; background: #fafafa;">
+                            <span style="color: #999;">Önizleme burada görünecektir. Fotoğrafları sürükleyip bırakarak
+                                sıralamayı değiştirebilir ve silebilirsiniz.</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit full-width">İlanı Veritabanına Kaydet</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- PROJE FORMU -->
+        <div id="projeEkle" class="tab-content">
+            <form id="projeFormu">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="proje_isim">Proje Adı</label>
+                        <input type="text" id="proje_isim" required placeholder="Örn: Zühre Konakları">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="proje_detay">Kısa Detay</label>
+                        <input type="text" id="proje_detay" required placeholder="Örn: Serik'te huzur dolu yaşam alanı">
+                    </div>
+
+                    <div class="form-group full-width"
+                        style="border: 2px dashed #ccc; padding: 1.5rem; text-align: center;">
+                        <label for="proje_gorsel" style="display: block; margin-bottom: 1rem; font-size: 1.1rem;">Proje
+                            Kapak Görselini Seçin (1 Adet)</label>
+                        <input type="file" id="proje_gorsel" required accept="image/*">
+                    </div>
+
+                    <button type="submit" class="btn-submit full-width">Projeyi Veritabanına Kaydet</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- MEVCUT KAYITLAR -->
+        <div id="mevcutKayitlar" class="tab-content">
+            <h2 class="list-title">Güncel İlanlar</h2>
+            <div id="adminIlanlarListesi">Yükleniyor...</div>
+
+            <h2 class="list-title" style="margin-top: 2.5rem;">Güncel Projeler</h2>
+            <div id="adminProjelerListesi">Yükleniyor...</div>
+        </div>
+
+        <div id="mesaj"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, updateDoc, doc, getDocs, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDlTPJ06IUHK7upDLZUB6cFFK4-3tQ_JzY",
+            authDomain: "zuhre-yatirim.firebaseapp.com",
+            projectId: "zuhre-yatirim",
+            storageBucket: "zuhre-yatirim.firebasestorage.app",
+            messagingSenderId: "215851700796",
+            appId: "1:215851700796:web:437f1fba0f47d43eb8e939",
+            measurementId: "G-FZ4T0P7KM6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const auth = getAuth(app);
+
+        // --- AUTHENTICATION (LOGIN) ---
+        const loginContainer = document.getElementById('loginContainer');
+        const adminMainContainer = document.getElementById('adminMainContainer');
+        const btnLogin = document.getElementById('btnLogin');
+        const btnLogout = document.getElementById('btnLogout');
+        const loginMessage = document.getElementById('loginMessage');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Giriş yapılmış
+                loginContainer.style.display = 'none';
+                adminMainContainer.style.display = 'block';
+                // Eğer Mevcut Kayıtlar sekmesi baştan açık varsayılırsa (ya da sonradan geçilirse) veritabanı okumaları başarılı olur.
+            } else {
+                // Giriş yapılmamış
+                loginContainer.style.display = 'flex';
+                adminMainContainer.style.display = 'none';
+            }
+        });
+
+        btnLogin.addEventListener('click', async () => {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!email || !password) {
+                loginMessage.innerText = "Lütfen e-posta ve şifrenizi doldurun.";
+                loginMessage.style.display = 'block';
+                return;
+            }
+
+            btnLogin.disabled = true;
+            btnLogin.innerText = "Bekleyin...";
+            loginMessage.style.display = 'none';
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                console.error(error);
+                loginMessage.innerText = "E-posta veya şifre hatalı!";
+                loginMessage.style.display = 'block';
+            } finally {
+                btnLogin.disabled = false;
+                btnLogin.innerText = "Giriş Yap";
+            }
+        });
+
+        btnLogout.addEventListener('click', async () => {
+            await signOut(auth);
+            // Formu temizle
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        });
+
+        const mesajKutusu = document.getElementById('mesaj');
+
+        function showMessage(text, isError = false) {
+            mesajKutusu.innerText = text;
+            mesajKutusu.className = isError ? "hata" : "basarili";
+            mesajKutusu.style.display = "block";
+            setTimeout(() => mesajKutusu.style.display = "none", 5000);
+        }
+
+        // --- SEKME (TAB) MANTIĞI ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.target).classList.add('active');
+
+                // Eğer "Mevcut Kayıtlar" sekmesine geçildiyse verileri çek
+                if (btn.dataset.target === 'mevcutKayitlar') {
+                    kayitlariGetir();
+                }
+            });
+        });
+
+        // --- İLAN FORMU DİNAMİK ALANLAR (ARSA GİZLEME) ---
+        const tipSelect = document.getElementById('tip');
+        const binaOzellikleri = document.getElementById('bina_ozellikleri');
+        const arsaOzellikleri = document.getElementById('arsa_ozellikleri');
+        const odaInput = document.getElementById('oda');
+        const katInput = document.getElementById('kat');
+        const binaYasiInput = document.getElementById('bina_yasi');
+        const banyoInput = document.getElementById('banyo');
+        const binaEkstralar = document.querySelectorAll('.bina-ekstra');
+        const arsaEkstralar = document.querySelectorAll('.arsa-ekstra');
+
+        tipSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val === 'Arsa' || val === 'Tarla / Arazi') {
+                binaOzellikleri.style.display = 'none';
+                arsaOzellikleri.style.display = 'grid';
+                odaInput.required = false;
+                katInput.required = false;
+                binaYasiInput.required = false;
+                banyoInput.required = false;
+                
+                binaEkstralar.forEach(el => {
+                    el.style.display = 'none';
+                    el.querySelector('input').checked = false;
+                });
+                arsaEkstralar.forEach(el => el.style.display = 'flex');
+            } else {
+                binaOzellikleri.style.display = 'grid'; // .form-grid kullanıldığı için
+                arsaOzellikleri.style.display = 'none';
+                odaInput.required = true;
+                katInput.required = true;
+                binaYasiInput.required = true;
+                banyoInput.required = true;
+                
+                binaEkstralar.forEach(el => el.style.display = 'flex');
+                arsaEkstralar.forEach(el => {
+                    el.style.display = 'none';
+                    el.querySelector('input').checked = false;
+                });
+            }
+        });
+        
+        // Sayfa ilk yüklendiğinde durumu düzeltmek için:
+        tipSelect.dispatchEvent(new Event('change'));
+
+        // --- FİYAT VE M2 HESAPLAMASI ---
+        const fiyatInput = document.getElementById('fiyat');
+        const paraBirimiSelect = document.getElementById('para_birimi');
+        const brutM2Input = document.getElementById('brut_m2');
+        const m2FiyatiGosterim = document.getElementById('m2_fiyati');
+
+        function formatNumber(value) {
+            if (!value) return '';
+            const plainNumber = value.toString().replace(/\D/g, '');
+            if (!plainNumber) return '';
+            return new Intl.NumberFormat('tr-TR').format(plainNumber);
+        }
+
+        function calculateM2Fiyati() {
+            const fValue = fiyatInput.value.replace(/\D/g, '');
+            const m2Value = brutM2Input.value;
+            const pb = paraBirimiSelect.value;
+
+            if (fValue && m2Value && m2Value > 0) {
+                const birimFiyat = Math.round(fValue / m2Value);
+                m2FiyatiGosterim.value = formatNumber(birimFiyat) + ' ' + pb;
+            } else {
+                m2FiyatiGosterim.value = '';
+            }
+        }
+
+        fiyatInput.addEventListener('input', (e) => {
+            // Sadece sayı girilmesine izin ver ve formatla
+            e.target.value = formatNumber(e.target.value);
+            calculateM2Fiyati();
+        });
+
+        paraBirimiSelect.addEventListener('change', calculateM2Fiyati);
+        brutM2Input.addEventListener('input', calculateM2Fiyati);
+
+        // --- İLAN FOTOĞRAF ÖNİZLEME VE SIRALAMA (DRAG & DROP) ---
+        const fotoInput = document.getElementById('fotograflar');
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        window.secilenFotograflar = [];
+
+        fotoInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            // Dosyaları diziye ekle
+            window.secilenFotograflar = window.secilenFotograflar.concat(files);
+            renderPreviews();
+            // Input'u sıfırla ki aynı dosyayı bir daha ekleyebilsin
+            fotoInput.value = '';
+        });
+
+        window.fotografSilFromPreview = function (index) {
+            window.secilenFotograflar.splice(index, 1);
+            renderPreviews();
+        };
+
+        window.fotografSolaKaydir = function (index) {
+            if (index > 0) {
+                const temp = window.secilenFotograflar[index - 1];
+                window.secilenFotograflar[index - 1] = window.secilenFotograflar[index];
+                window.secilenFotograflar[index] = temp;
+                renderPreviews();
+            }
+        };
+
+        window.fotografSagaKaydir = function (index) {
+            if (index < window.secilenFotograflar.length - 1) {
+                const temp = window.secilenFotograflar[index + 1];
+                window.secilenFotograflar[index + 1] = window.secilenFotograflar[index];
+                window.secilenFotograflar[index] = temp;
+                renderPreviews();
+            }
+        };
+
+        function renderPreviews() {
+            if (window.secilenFotograflar.length === 0) {
+                previewContainer.innerHTML = '<span style="color: #999;">Önizleme burada görünecektir. Görsellerin üzerindeki okları kullanarak sıralamayı değiştirebilirsiniz.</span>';
+                return;
+            }
+
+            previewContainer.innerHTML = '';
+
+            window.secilenFotograflar.forEach((file, index) => {
+                const wrapper = document.createElement('div');
+                let highlightStyle = index === 0 ? "border: 3px solid #1D4E89; transform: scale(1.05); z-index: 10; box-shadow: 0 4px 8px rgba(29, 78, 137, 0.3);" : "border: 2px solid transparent;";
+                wrapper.style.cssText = `position: relative; width: 120px; height: 120px; border-radius: 4px; overflow: hidden; background: #fff; transition: all 0.2s; ${highlightStyle}`;
+                previewContainer.appendChild(wrapper);
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    let htmlControls = ``;
+                    if (index > 0) {
+                        htmlControls += `<button type="button" onclick="fotografSolaKaydir(${index})" title="Sola Kaydır" style="position: absolute; top: 50%; left: 4px; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem;">&#8249;</button>`;
+                    }
+                    if (index < window.secilenFotograflar.length - 1) {
+                        htmlControls += `<button type="button" onclick="fotografSagaKaydir(${index})" title="Sağa Kaydır" style="position: absolute; top: 50%; right: 4px; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem;">&#8250;</button>`;
+                    }
+
+                    let kapakBadge = index === 0 ? `<div style="position: absolute; top: 4px; left: 4px; background: #1D4E89; color: white; font-size: 0.65rem; font-weight: bold; padding: 2px 6px; border-radius: 4px; pointer-events: none;">Kapak Görseli</div>` : '';
+
+                    wrapper.innerHTML = `
+                        <img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; user-select: none;">
+                        <button type="button" onclick="fotografSilFromPreview(${index})" title="Sil" style="position: absolute; top: 4px; right: 4px; background: rgba(220,53,69,0.9); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-weight: bold; font-size: 0.8rem; display:flex; align-items:center; justify-content:center; padding-bottom: 1px; z-index: 5;">&times;</button>
+                        ${htmlControls}
+                        ${kapakBadge}
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: white; font-size: 0.75rem; padding: 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${file.name}">${file.name}</div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // --- İLAN KAYDETME ---
+        document.getElementById('ilanFormu').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('.btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Fotoğraflar Yükleniyor, Bekleyin...";
+
+            try {
+                const yuklenenFotografLinkleri = [];
+
+                if (window.secilenFotograflar.length > 0) {
+                    for (let i = 0; i < window.secilenFotograflar.length; i++) {
+                        const dosya = window.secilenFotograflar[i];
+                        const dosyaYolu = `ilan_fotograflari/${Date.now()}_${dosya.name}`;
+                        const storageRef = ref(storage, dosyaYolu);
+                        await uploadBytes(storageRef, dosya);
+                        const indirmeLinki = await getDownloadURL(storageRef);
+                        yuklenenFotografLinkleri.push(indirmeLinki);
+                    }
+                }
+
+                submitBtn.innerText = "Veriler Kaydediliyor...";
+
+                const isArsa = tipSelect.value === 'Arsa' || tipSelect.value === 'Tarla / Arazi';
+
+                const yeniIlan = {
+                    baslik: document.getElementById('baslik').value,
+                    konum: document.getElementById('konum').value,
+                    adres_acik: document.getElementById('adres_acik') ? document.getElementById('adres_acik').value : '',
+                    ilce: document.getElementById('ilce') ? document.getElementById('ilce').value : '',
+                    il: document.getElementById('il') ? document.getElementById('il').value : '',
+                    tip: tipSelect.value,
+                    fiyat: document.getElementById('fiyat').value + ' ' + document.getElementById('para_birimi').value,
+                    m2_fiyati: document.getElementById('m2_fiyati').value,
+                    brut_m2: parseInt(document.getElementById('brut_m2').value),
+                    net_m2: parseInt(document.getElementById('net_m2').value),
+                    oda: isArsa ? "-" : document.getElementById('oda').value,
+                    banyo: isArsa ? "-" : parseInt(document.getElementById('banyo').value),
+                    kat: isArsa ? "-" : document.getElementById('kat').value,
+                    bina_yasi: isArsa ? "-" : document.getElementById('bina_yasi').value,
+                    ada_no: isArsa ? document.getElementById('ada_no').value : "-",
+                    parsel_no: isArsa ? document.getElementById('parsel_no').value : "-",
+                    imar_durumu: isArsa ? document.getElementById('imar_durumu').value : "-",
+                    tapu_durumu: isArsa ? document.getElementById('tapu_durumu').value : "-",
+                    yola_cephe: isArsa ? document.getElementById('yola_cephe').checked : false,
+                    dogalgaz: document.getElementById('dogalgaz').checked,
+                    otopark: document.getElementById('otopark').checked,
+                    site_ici: document.getElementById('site_ici').checked,
+                    asansor: document.getElementById('asansor').checked,
+                    elektrik: document.getElementById('elektrik').checked,
+                    su: document.getElementById('su').checked,
+                    krediye_uygun: document.getElementById('krediye_uygun').checked,
+                    yatirima_uygun: document.getElementById('yatirima_uygun').checked,
+                    aciklama: document.getElementById('aciklama').value,
+                    one_cikan: document.getElementById('one_cikan').checked,
+                    fotograflar: yuklenenFotografLinkleri
+                };
+
+                const docRef = await addDoc(collection(db, "ilanlar"), yeniIlan);
+                await updateDoc(doc(db, "ilanlar", docRef.id), { id: docRef.id });
+
+                showMessage("İlan başarıyla eklendi!");
+                e.target.reset();
+                window.secilenFotograflar = [];
+                renderPreviews();
+                // Form resetlenince Arsa durumu düzelsin diye change tetikliyoruz
+                tipSelect.dispatchEvent(new Event('change'));
+
+            } catch (hata) {
+                console.error(hata);
+                showMessage("Kayıt sırasında hata oluştu.", true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "İlanı Veritabanına Kaydet";
+            }
+        });
+
+        // --- PROJE KAYDETME ---
+        document.getElementById('projeFormu').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('.btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Fotoğraf Yükleniyor...";
+
+            try {
+                const fotoInput = document.getElementById('proje_gorsel');
+                let gorselUrl = "";
+
+                if (fotoInput.files.length > 0) {
+                    const dosya = fotoInput.files[0];
+                    const dosyaYolu = `proje_fotograflari/${Date.now()}_${dosya.name}`;
+                    const storageRef = ref(storage, dosyaYolu);
+                    await uploadBytes(storageRef, dosya);
+                    gorselUrl = await getDownloadURL(storageRef);
+                }
+
+                submitBtn.innerText = "Veriler Kaydediliyor...";
+
+                const yeniProje = {
+                    isim: document.getElementById('proje_isim').value,
+                    detay: document.getElementById('proje_detay').value,
+                    gorsel: gorselUrl
+                };
+
+                const docRef = await addDoc(collection(db, "projeler"), yeniProje);
+                await updateDoc(doc(db, "projeler", docRef.id), { id: docRef.id });
+
+                showMessage("Proje başarıyla eklendi!");
+                e.target.reset();
+
+            } catch (hata) {
+                console.error(hata);
+                showMessage("Proje kaydedilirken hata oluştu.", true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Projeyi Veritabanına Kaydet";
+            }
+        });
+
+        // --- KAYITLARI LİSTELEME VE SİLME ---
+        async function kayitlariGetir() {
+            const ilanlarDiv = document.getElementById('adminIlanlarListesi');
+            const projelerDiv = document.getElementById('adminProjelerListesi');
+            ilanlarDiv.innerHTML = 'Yükleniyor...';
+            projelerDiv.innerHTML = 'Yükleniyor...';
+
+            try {
+                // İlanlar
+                const ilanlarSnap = await getDocs(collection(db, "ilanlar"));
+                let iHtml = '';
+                ilanlarSnap.forEach(doc => {
+                    const data = doc.data();
+                    iHtml += `
+                        <div class="record-item">
+                            <div>
+                                <strong>${data.baslik}</strong> <br>
+                                <small>${data.tip} - ${data.fiyat}</small>
+                            </div>
+                            <button onclick="kayitSil('ilanlar', '${doc.id}')" class="btn-delete">Sil</button>
+                        </div>
+                    `;
+                });
+                ilanlarDiv.innerHTML = iHtml || '<p>Kayıtlı ilan bulunamadı.</p>';
+
+                // Projeler
+                const projelerSnap = await getDocs(collection(db, "projeler"));
+                let pHtml = '';
+                projelerSnap.forEach(doc => {
+                    const data = doc.data();
+                    const kisaDetay = data.detay ? data.detay.substring(0, 50) + '...' : '';
+                    pHtml += `
+                        <div class="record-item">
+                            <div>
+                                <strong>${data.isim}</strong> <br>
+                                <small>${kisaDetay}</small>
+                            </div>
+                            <button onclick="kayitSil('projeler', '${doc.id}')" class="btn-delete">Sil</button>
+                        </div>
+                    `;
+                });
+                projelerDiv.innerHTML = pHtml || '<p>Kayıtlı proje bulunamadı.</p>';
+
+            } catch (e) {
+                console.error(e);
+                ilanlarDiv.innerHTML = '<p class="hata" style="padding:1rem;">Veriler çekilirken hata oluştu.</p>';
+                projelerDiv.innerHTML = '<p class="hata" style="padding:1rem;">Veriler çekilirken hata oluştu.</p>';
+            }
+        }
+
+        window.kayitSil = async function (koleksiyon, id) {
+            if (confirm('Bu kaydı tamamen silmek istediğinize emin misiniz?')) {
+                try {
+                    const recordRef = doc(db, koleksiyon, id);
+                    const docSnap = await getDoc(recordRef);
+
+                    if (docSnap.exists()) {
+                        const veriler = docSnap.data();
+                        if (veriler.fotograflar && veriler.fotograflar.length > 0) {
+                            for (let imgUrl of veriler.fotograflar) {
+                                try {
+                                    const imgRef = ref(storage, imgUrl);
+                                    await deleteObject(imgRef);
+                                } catch (err) {
+                                    console.warn("Fotoğraf storage'dan silinemedi (önceden silinmiş olabilir):", err);
+                                }
+                            }
+                        }
+                    }
+
+                    await deleteDoc(recordRef);
+                    showMessage('Kayıt silindi!', false);
+                    kayitlariGetir(); // Listeyi yenile
+                } catch (e) {
+                    console.error(e);
+                    showMessage('Silinirken hata oluştu.', true);
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

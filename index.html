@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F0F2F5">
   <title>Zühre Yatırım — Gayrimenkul Danışmanlığı</title>
   <link rel="stylesheet" href="css/style.css?v=3">
   <style>
@@ -25,8 +26,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(191, 132, 64, 0.25) 30%, transparent 80%),
-        repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(191, 132, 64, 0.08) 119px, rgba(191, 132, 64, 0.08) 120px);
+      background: linear-gradient(90deg, transparent 30%, rgba(29, 78, 137, 0.25) 60%, transparent 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(29, 78, 137, 0.08) 119px, rgba(29, 78, 137, 0.08) 120px);
       opacity: 0;
       animation: fadeLines 2.5s ease-out 0.8s forwards;
       z-index: -1;
@@ -53,7 +54,7 @@
       width: 1px;
       height: 130%;
       z-index: -1;
-      background: linear-gradient(180deg, transparent 0%, rgba(191, 132, 64, 0.3) 40%, rgba(191, 132, 64, 0.3) 60%, transparent 100%);
+      background: linear-gradient(180deg, transparent 0%, rgba(29, 78, 137, 0.3) 40%, rgba(29, 78, 137, 0.3) 60%, transparent 100%);
       transform: rotate(15deg);
       opacity: 0;
       animation: fadeIn 2s ease-out 1.8s forwards;
@@ -66,7 +67,7 @@
       width: 1px;
       height: 120%;
       z-index: -1;
-      background: linear-gradient(180deg, transparent 0%, rgba(191, 132, 64, 0.15) 35%, rgba(191, 132, 64, 0.15) 65%, transparent 100%);
+      background: linear-gradient(180deg, transparent 0%, rgba(29, 78, 137, 0.15) 35%, rgba(29, 78, 137, 0.15) 65%, transparent 100%);
       transform: rotate(15deg);
       opacity: 0;
       animation: fadeIn 2s ease-out 2.1s forwards;
@@ -78,7 +79,7 @@
       height: 600px;
       border-radius: 50%;
       z-index: -1;
-      background: radial-gradient(circle, rgba(191, 132, 64, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--gold-dim) 0%, transparent 70%);
       top: 10%;
       left: 25%;
       filter: blur(80px);
@@ -128,7 +129,7 @@
 
     .hero-tagline {
       font-weight: 400;
-      font-size: 0.75rem;
+      font-size: 1rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
@@ -139,7 +140,7 @@
     }
 
     .hero-heading {
-      font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
       line-height: 1.15;
       letter-spacing: -0.02em;
       margin-bottom: 2rem;
@@ -151,11 +152,36 @@
     .hero-heading em {
       font-style: italic;
       color: var(--gold);
+      font-weight: 700;
+      position: relative;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 1.2rem 3rem;
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 1s ease-out 1.5s forwards;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .hero-cta:hover {
+      background: #a67236;
+      transform: translateY(-2px);
     }
 
     .hero-sub {
       font-weight: 400;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       line-height: 1.7;
       color: var(--text-muted);
       max-width: 460px;
@@ -273,6 +299,7 @@
       font-size: 1.4rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
+      color: var(--text-muted);
     }
 
     .team-role {
@@ -285,13 +312,20 @@
     /* ── Value Prop Section ── */
     .value-prop {
       position: relative;
-      padding: 0 !important;
+      padding: 4rem 0 !important;
+      /* give vertical breathing room */
+      background: transparent !important;
     }
 
     .value-grid {
       display: grid;
       grid-template-columns: 1fr 1px 1fr;
       gap: 0;
+      margin: 0 10vw;
+      background: var(--bg-card);
+      border-radius: 8px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
     }
 
     .value-col {
@@ -320,6 +354,11 @@
       max-width: 400px;
     }
 
+    .value-col-right {
+      align-items: flex-end;
+      text-align: right;
+    }
+
     /* ── Featured Properties ── */
     .featured-wrapper {
       width: 100%;
@@ -334,6 +373,8 @@
       padding: 2rem 4rem;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
+      scroll-padding-left: 4rem;
+      /* For desktop */
       scrollbar-width: none;
     }
 
@@ -485,6 +526,7 @@
     @media (max-width: 900px) {
       .value-grid {
         grid-template-columns: 1fr;
+        margin: 0 5vw;
       }
 
       .value-divider {
@@ -495,11 +537,33 @@
       .value-col {
         padding: 4rem;
       }
+
+      .value-col-right {
+        align-items: flex-start;
+        text-align: left;
+      }
     }
 
     @media (max-width: 768px) {
       .hero-content {
-        padding: 0 1.8rem;
+        padding: 0 1.5rem;
+      }
+
+      .hero-tagline {
+        font-size: clamp(0.8rem, 4vw, 1rem);
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-heading {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .hero-sub {
+        font-size: clamp(0.8rem, 4.2vw, 1.1rem);
+      }
+
+      .hero-cta {
+        padding: 1rem 2rem;
       }
 
       .hero-bottom {
@@ -526,7 +590,13 @@
       }
 
       .featured-track {
-        padding: 1rem 1.8rem;
+        padding: 1rem 2rem;
+        scroll-padding-left: 2rem;
+      }
+
+      .value-grid {
+        margin: 0;
+        border-radius: 0;
       }
 
       .value-col {
@@ -561,7 +631,9 @@
     <div class="corner corner--br"></div>
 
     <nav>
-      <div class="logo">ZÜHRE YATIRIM<span>.</span></div>
+      <a href="index.html" style="text-decoration: none; color: inherit;">
+        <div class="logo">ZÜHRE YATIRIM<span>.</span></div>
+      </a>
       <ul class="nav-links">
         <li><a href="#ekip">Hakkımızda</a></li>
         <li><a href="ilanlar.html">İlanlar</a></li>
@@ -571,10 +643,18 @@
     </nav>
 
     <div class="hero-content">
-      <p class="hero-tagline">Serik · Belek · Antalya</p>
-      <h1 class="hero-heading">Toprağı tanır,<br><em>üstünü</em> inşa ederiz.</h1>
-      <p class="hero-sub">Kat karşılığı inşaat ve gayrimenkul danışmanlığı.<br>Üç kişilik ekip, yirmi yıllık tecrübe.
+      <p class="hero-tagline" style="white-space: nowrap;">Serik · Belek · Antalya</p>
+      <h1 class="hero-heading">
+        <span style="white-space: nowrap;">Antalya'da <em> doğru</em></span><br>
+        <span style="white-space: nowrap;">Gayrimenkul yatırımı.</span>
+      </h1>
+      <p class="hero-sub">
+        <span style="white-space: nowrap;">Zühre Yatırım Gayrimenkul Danışmanlığı</span><br>
+        <span style="white-space: nowrap;">Arsa · Tarla · Daire · Müstakil Ev · Kat Karşılığı</span>
       </p>
+      <div>
+        <a href="ilanlar.html" class="hero-cta">İlanları İncele</a>
+      </div>
     </div>
 
     <div class="hero-bottom">
@@ -595,22 +675,214 @@
   </section>
 
   <!-- Adım 2: Ekip -->
-  <section id="ekip">
-    <div class="container">
-      <h2 class="section-title">Butik Hizmet Anlayışı.<br><span class="text-gold">Şeffaf süreç yönetimi.</span></h2>
-      <div class="team-grid">
-        <div class="team-member">
-          <img src="images/ekip/zuhre-placeholder.jpg" alt="Zühre Kuş" class="team-photo">
-          <h3 class="team-name">Zühre Kuş</h3>
+  <style>
+    .about-section {
+      padding: 6rem 15vw;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    .about-img-box {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-hover);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .about-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .about-img-box:hover img {
+      transform: scale(1.05);
+    }
+
+    .about-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 4rem 2rem 2rem 2rem;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 50%, transparent 100%);
+      color: white;
+    }
+
+    .about-role {
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .about-name {
+      color: #ffffff !important;
+      font-family: var(--heading-font);
+      font-size: 1.6rem;
+      margin: 0;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .about-text {
+      color: var(--text-main);
+      line-height: 2;
+      font-size: 1.15rem;
+      text-align: justify;
+    }
+
+    .about-text-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
+    .col-title {
+      font-family: var(--heading-font);
+      font-size: 1.4rem;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .col-text {
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-size: 1rem;
+      text-align: justify;
+    }
+
+    .text-col {
+      position: relative;
+    }
+
+    .text-col:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 5%;
+      right: -1.5rem;
+      /* Half of the 3rem gap */
+      width: 1px;
+      height: 90%;
+      background: var(--gold-border);
+    }
+
+    @media (max-width: 900px) {
+      .about-section {
+        padding: 4rem 10vw;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-text-cols {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .text-col:not(:last-child)::after {
+        top: auto;
+        bottom: -1.5rem;
+        /* Half of the 3rem gap */
+        right: 15%;
+        left: 15%;
+        width: 70%;
+        height: 1px;
+      }
+
+      .about-img-box.tall {
+        aspect-ratio: 1/1 !important;
+      }
+
+
+      .about-img-box.stacked {
+        aspect-ratio: 16/9;
+      }
+
+      .about-text {
+        text-align: left;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .about-section {
+        padding: 4rem 5vw;
+      }
+    }
+  </style>
+
+  <section id="ekip" class="about-section">
+    <h2 class="section-title" style="text-align: center; margin-bottom: 2rem;">Zühre Yatırım Gayrimenkul Danışmanlığı
+    </h2>
+    <p
+      style="text-align: center; color: var(--text-muted); font-size: 1.15rem; max-width: 800px; margin: 0 auto 5rem auto; line-height: 1.8;">
+      Serik, Belek ve Antalya'da bölgeyi derinlemesine tanıyan ekibiyle; arsa sahiplerinden alıcılara, yatırımcılardan
+      proje ortaklarına kadar her müşterisine güven veren bir danışmanlık yapısı.
+    </p>
+
+    <div class="about-grid">
+      <!-- Left: Founder -->
+      <div class="about-img-box tall" style="aspect-ratio: 3/4;">
+        <img src="images/ekip/zuhre-placeholder.jpg" alt="Zühre Kuş">
+        <div class="about-overlay">
+          <div class="about-role">Kurucu</div>
+          <h3 class="about-name" style="font-size: 1.8rem;">Zühre Kuş</h3>
         </div>
-        <div class="team-member">
-          <img src="images/ekip/sefa-placeholder.jpg" alt="Sefa Çoşkun" class="team-photo">
-          <h3 class="team-name">Sefa Çoşkun</h3>
+      </div>
+
+      <!-- Right: Stacked Sefa & Mehmet -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="about-img-box stacked" style="flex: 1; position: relative;">
+          <img src="images/ekip/sefa-placeholder.jpg" alt="Sefa Çoşkun" style="position: absolute;">
+          <div class="about-overlay">
+            <div class="about-role">Gayrimenkul Danışmanı</div>
+            <h3 class="about-name">Sefa Çoşkun</h3>
+          </div>
         </div>
-        <div class="team-member">
-          <img src="images/ekip/mehmet-placeholder.jpg" alt="Mehmet Kuş" class="team-photo">
-          <h3 class="team-name">Mehmet Kuş</h3>
+        <div class="about-img-box stacked" style="flex: 1; position: relative;">
+          <img src="images/ekip/mehmet-placeholder.jpg" alt="Mehmet Kuş" style="position: absolute;">
+          <div class="about-overlay">
+            <div class="about-role">Gayrimenkul Danışmanı</div>
+            <h3 class="about-name">Mehmet Kuş</h3>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div class="about-text-cols">
+      <div class="text-col">
+        <h3 class="col-title">Biz kimiz?</h3>
+        <p class="col-text">Zühre Yatırım Gayrimenkul Danışmanlığı, Serik merkezli olarak faaliyet gösteren; Belek ve
+          Antalya çevresinde gayrimenkul satışı, yatırım danışmanlığı ve kat karşılığı proje süreçlerinde hizmet sunan
+          yerel bir danışmanlık markasıdır. Arsa sahipleri, yatırımcılar ve alıcılar için yalnızca portföy sunan değil;
+          süreci doğru yöneten, bölgeyi tanıyan ve güven veren bir yapı olmayı hedefler.</p>
+      </div>
+      <div class="text-col">
+        <h3 class="col-title">Nasıl çalışıyoruz?</h3>
+        <p class="col-text">Zühre Yatırım, gayrimenkulü yalnızca alım-satım odaklı değil; doğru analiz, doğru lokasyon
+          ve doğru yönlendirme üzerinden ele alır. Bölgenin gelişen yapısını, yaşam alanlarını ve yatırım potansiyelini
+          yakından takip ederek; her müşteriye ihtiyacına uygun, net ve gerçekçi seçenekler sunmayı amaçlar. Şeffaf
+          iletişim, ulaşılabilirlik ve güvenilir süreç yönetimi bu yaklaşımın temelini oluşturur.</p>
+      </div>
+      <div class="text-col">
+        <h3 class="col-title">Neye inanıyoruz?</h3>
+        <p class="col-text">Bizim için gayrimenkul yalnızca bir satış süreci değil; doğru karar, doğru zamanlama ve uzun
+          vadeli memnuniyet meselesidir. Bu nedenle her portföyü yalnızca fiyatıyla değil; bulunduğu konum, kullanım
+          amacı, gelecekteki potansiyeli ve sağlayacağı gerçek değer ile birlikte değerlendiriyoruz. Zühre Yatırım'ın
+          yaklaşımı; güven oluşturan, acele ettirmeyen ve doğru kararı destekleyen bir danışmanlık anlayışına dayanır.
+        </p>
       </div>
     </div>
   </section>
@@ -625,7 +897,7 @@
         <a href="#iletisim" class="btn-outline">Bizi Arayın</a>
       </div>
       <div class="value-divider"></div>
-      <div class="value-col" style="align-items: flex-end; text-align: right;">
+      <div class="value-col value-col-right">
         <h2 class="value-title">Ev mi arıyorsunuz?</h2>
         <p class="value-text">Serik ve çevresinde satılık daire, müstakil ve arsa ilanlarımızı inceleyin. Neye
           ihtiyacınız olduğunu biliyoruz çünkü çoğunu biz inşa ettik.</p>
@@ -664,8 +936,8 @@
           <img src="images/ofis-placeholder.jpg" alt="Zühre Yatırım Ofisi">
         </div>
         <div class="contact-info-half">
-          <h2 class="section-title">Konuşalım.</h2>
-          <p class="text-muted">Kahve içmeye ofisimize bekleriz veya arayın hemen görüşelim.</p>
+          <h2 class="section-title">Güvenilir Danışmanlık.</h2>
+          <p class="text-muted">Gayrimenkul yatırımlarınızda doğru kararlar almak için profesyonel destek alın.</p>
 
           <a href="tel:+905551234567" class="contact-number">0 555 123 45 67</a>
 
@@ -676,11 +948,11 @@
               <path
                 d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
             </svg>
-            WhatsApp'tan Yazın
+            BİZE ULAŞIN
           </a>
 
           <p class="text-muted" style="margin-top: 3rem; font-size: 0.9rem; margin-bottom: 0;">
-            Orta Mahalle, Serik / Antalya
+            Orta Mh. 1006 Sok. No:14/7 Serik/Antalya
           </p>
         </div>
       </div>
@@ -692,7 +964,7 @@
     <p>&copy; 2024 Zühre Yatırım Gayrimenkul Danışmanlığı. Tüm hakları saklıdır.</p>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
